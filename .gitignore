@@ -1,0 +1,6 @@
+.vscode
+runs
+data
+*.pyc
+*.png
+*.sh

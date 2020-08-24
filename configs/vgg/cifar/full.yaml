@@ -1,0 +1,16 @@
+OUT_DIR: "./weights/vgg/cifar/full"
+MODEL:
+  BACKBONE: "VGG"
+  DECOMPOSABLE_LAYERS: ["conv1_2", "conv2_1", "conv2_2", "conv3_1", "conv3_2", "conv3_3", "conv4_1", "conv4_2", "conv4_3", "conv5_1", "conv5_2", "conv5_3"]
+DATASET:
+  NORM_VAR: [0.225, 0.225, 0.225]
+  INPUT_SIZE: (3, 32, 32)
+TRAIN:
+  NUM_RUNS: 1
+  BATCH_SIZE: 128
+  NUM_EPOCHS: 200
+  LR_MILESTONES: [100, 150]
+  INITIAL_LR: 0.05
+  LOSS_LABEL: "vgg/loss"
+  ACC_LABEL: "vgg/accuracy"
+  SAVE_EVERY: 50

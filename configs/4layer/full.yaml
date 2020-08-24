@@ -1,0 +1,4 @@
+OUT_DIR: "./weights/4layer/full"
+TRAIN:
+  NUM_EPOCHS: 100
+  LR_MILESTONES: [50, 75]

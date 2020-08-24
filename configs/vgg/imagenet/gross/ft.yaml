@@ -1,0 +1,44 @@
+OUT_DIR: "./runs/vgg/imagenet/ft"
+SYSTEM:
+  NUM_WORKERS: 8
+MODEL:
+  LOAD_PATH: "runs/vgg/vgg_imagenet_decomp.pth"
+  INIT_DECOMPOSED: True
+  BACKBONE: "VGG-ImageNet"
+  DECOMPOSABLE_LAYERS: ["conv1_2", "conv2_1", "conv2_2", "conv3_1", "conv3_2", "conv3_3", "conv4_1", "conv4_2", "conv4_3", "conv5_1", "conv5_2", "conv5_3"]
+  DECOMPOSE_STRUCTURE: [[1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32]]
+DATASET:
+  NAME: "imagenet"
+  ROOT_DIR: "./data/imagenet"
+  NORM_MEAN: [0.485, 0.456, 0.406]
+  NORM_VAR: [0.229, 0.224, 0.225]
+  INPUT_SIZE: (3, 224, 224)
+TRAIN:
+  BATCH_SIZE: 128
+  GROUP_SIZES: [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+  FREEZE_STANDARD_LAYERS: True
+  NUM_RUNS: 1
+  NUM_EPOCHS: 4
+  LR_MILESTONES: [2,]
+  LR_GAMMA: 0.1
+  INITIAL_LR: 0.00001
+  SAVE_AT_START: True
+  SAVE_EVERY: 1
+  LOSS_LABEL: "vgg/imagenet/ft_loss"
+  ACC_LABEL: "vgg/imagenet/ft_accuracy(max)"
+  RESPONSE_RECONSTRUCTION: False
+  RESPONSE_GROUP_SIZES: [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+  RESPONSE_LOAD_PATH: "./runs/vgg/imagenet/full_decompvgg/0/decompnet_200.pth"
+  RESPONSE_LABEL: "vgg/imagenet/response_loss"
+TEST:
+  GROUP_SIZES: [32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32]
+  ADDITIONAL_TEST: True
+  ADDITIONAL_ACC_LABEL: "vgg/imagenet/ft_accuracy(dw)"
+  ADDITIONAL_TEST_GROUP_SIZES: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+  BATCH_SIZE: 256
+SEARCH:
+  POSSIBLE_CONFIGS: [[1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32]]
+  BASE_CONFIG: [16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16]
+  # MAC_LIMIT: 1280000000
+  TYPE: "bbfs"
+  OUT_FILE: "DS_search.bin"

@@ -1,0 +1,25 @@
+OUT_DIR: "./weights/4layer/gross/decompose_ft"
+MODEL:
+  LOAD_PATH: "./weights/4layer/full/1/decompnet_100.pth"
+TRAIN:
+  GROUP_SIZES: [-1, -1, -1]
+  FREEZE_STANDARD_LAYERS: True
+  NUM_RUNS: 5
+  NUM_EPOCHS: 150
+  LR_MILESTONES: [80, 120]
+  LR_GAMMA: 0.1
+  INITIAL_LR: 0.0001
+  SAVE_AT_START: True
+  SAVE_EVERY: 10
+  LOSS_LABEL: "train/decomp_ft_loss"
+  ACC_LABEL: "test/decomp_ft_accuracy(max)"
+TEST:
+  GROUP_SIZES: [32, 32, 64]
+  ADDITIONAL_TEST: True
+  ADDITIONAL_ACC_LABEL: "test/decomp_ft_accuracy(dw)"
+  ADDITIONAL_TEST_GROUP_SIZES: [1, 1, 1]
+  BATCH_SIZE: 10240
+SEARCH:
+  POSSIBLE_CONFIGS: [[1, 2, 4, 8, 16, 32], [1, 2, 4, 8, 16, 32], [1, 2, 4, 8, 16, 32, 64]]
+  BASE_CONFIG: [32, 32, 32]
+  TYPE: "exhaustive"

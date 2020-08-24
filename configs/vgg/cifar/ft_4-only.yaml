@@ -1,0 +1,23 @@
+OUT_DIR: "./weights/vgg/cifar/ft_4"
+MODEL:
+  LOAD_PATH: "./weights/vgg/cifar/decompose/cifar10_vgg16_decomp.pth"
+  INIT_DECOMPOSED: True
+  BACKBONE: "VGG"
+  DECOMPOSABLE_LAYERS: ["conv1_2", "conv2_1", "conv2_2", "conv3_1", "conv3_2", "conv3_3", "conv4_1", "conv4_2", "conv4_3", "conv5_1", "conv5_2", "conv5_3"]
+  DECOMPOSE_STRUCTURE: [[1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32]]
+DATASET:
+  NORM_VAR: [0.225, 0.225, 0.225]
+TRAIN:
+  GROUP_SIZES: [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+  FREEZE_STANDARD_LAYERS: True
+  NUM_RUNS: 1
+  NUM_EPOCHS: 100
+  LR_MILESTONES: [80]
+  LR_GAMMA: 0.1
+  INITIAL_LR: 0.001
+  SAVE_AT_START: True
+  SAVE_EVERY: 10
+  LOSS_LABEL: "vgg/ft_loss(4-only)"
+  ACC_LABEL: "vgg/ft_accuracy(4-only)"
+TEST:
+  GROUP_SIZES: [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]

@@ -1,0 +1,40 @@
+OUT_DIR: "./runs/vgg/imagenet/decompose"
+MODEL:
+  # LOAD_PATH: "runs/vgg/cifar10_vgg16_decomp.pth"
+  LOAD_PATH: "runs/vgg/vgg_imagenet.pth"
+  INIT_DECOMPOSED: False
+  BACKBONE: "VGG-ImageNet"
+  DECOMPOSABLE_LAYERS: ["conv1_2", "conv2_1", "conv2_2", "conv3_1", "conv3_2", "conv3_3", "conv4_1", "conv4_2", "conv4_3", "conv5_1", "conv5_2", "conv5_3"]
+  DECOMPOSE_STRUCTURE: [[1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32]]
+DATASET:
+  NORM_VAR: [0.225, 0.225, 0.225]
+TRAIN:
+  GROUP_SIZES: [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+  FREEZE_STANDARD_LAYERS: True
+  NUM_RUNS: 5
+  NUM_EPOCHS: 0
+  LR_MILESTONES: [100, 150]
+  LR_GAMMA: 0.1
+  INITIAL_LR: 0.0001
+  SAVE_AT_START: True
+  SAVE_EVERY: 10
+  LOSS_LABEL: "vgg/ft_loss"
+  ACC_LABEL: "vgg/ft_accuracy(max)"
+  RESPONSE_RECONSTRUCTION: False
+  RESPONSE_GROUP_SIZES: [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+  RESPONSE_LOAD_PATH: "./runs/vgg/full_decompvgg/0/decompnet_200.pth"
+  RESPONSE_LABEL: "vgg/response_loss"
+TEST:
+  GROUP_SIZES: [32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32]
+  ADDITIONAL_TEST: True
+  ADDITIONAL_ACC_LABEL: "vgg/ft_accuracy(dw)"
+  ADDITIONAL_TEST_GROUP_SIZES: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+  BATCH_SIZE: 20480
+DECOMPOSITION:
+  MIN_STEP: 1e-5
+SEARCH:
+  POSSIBLE_CONFIGS: [[1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32], [1, 4, 16, 32]]
+  BASE_CONFIG: [32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32]
+  # LOWER_BOUND: [16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16]
+  TYPE: "bbfs"
+  OUT_FILE: "32_search_LB.bin"

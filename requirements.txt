@@ -1,0 +1,6 @@
+tensorly==0.4.5
+yacs==0.1.6
+tqdm==4.36.1
+numpy==1.17.4
+tensorboard==2.2.1
+thop

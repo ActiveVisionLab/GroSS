@@ -1,0 +1,18 @@
+OUT_DIR: "./weights/4layer/decompose_ft_16"
+MODEL:
+  LOAD_PATH: "./weights/4layer/full/1/decompnet_100.pth"
+  DECOMPOSE_STRUCTURE: [[16], [16], [16]]
+TRAIN:
+  GROUP_SIZES: [16, 16, 16]
+  FREEZE_STANDARD_LAYERS: True
+  NUM_RUNS: 5
+  NUM_EPOCHS: 100
+  LR_MILESTONES: [80, ]
+  LR_GAMMA: 0.1
+  INITIAL_LR: 0.001
+  SAVE_AT_START: True
+  SAVE_EVERY: 20
+  LOSS_LABEL: "train/decomp_ft_16_loss"
+  ACC_LABEL: "test/decomp_ft_16_accuracy"
+TEST:
+  GROUP_SIZES: [16, 16, 16]

@@ -1,0 +1,29 @@
+OUT_DIR: "./weights/vgg/imagenet/wang-et-al/gross/decompose"
+MODEL:
+  LOAD_PATH: "runs/vgg/vgg_imagenet.pth"
+  INIT_DECOMPOSED: True
+  BACKBONE: "VGG-ImageNet"
+  DECOMPOSABLE_LAYERS: ["conv1_2", "conv2_1", "conv2_2", "conv3_1", "conv3_2", "conv3_3", "conv4_1", "conv4_2", "conv4_3", "conv5_1", "conv5_2", "conv5_3"]
+  DECOMPOSE_STRUCTURE: [[11], [5, 10], [1, 7, 14, 28], [3, 9, 18], [15, 30, 60], [16, 32, 64], [16, 32, 64], [29, 58, 116], [3, 33, 66], [7, 28, 56, 112], [7, 28, 56, 112], [7, 28, 56, 112]]
+  BOTTLE_DIMS: [[11, 18], [10, 24], [28, 28], [36, 48], [60, 48], [64, 56], [64, 100], [116, 100], [132, 132], [224, 224], [224, 224], [224, 224]]
+DATASET:
+  NORM_VAR: [0.225, 0.225, 0.225]
+  INPUT_SIZE: (3, 224, 224)
+TRAIN:
+  BATCH_SIZE: 128
+  GROUP_SIZES: [11, 10, 14, 9, 15, 16, 16, 29, 33, 56, 56, 56]
+  FREEZE_STANDARD_LAYERS: False
+  NUM_RUNS: 1
+  NUM_EPOCHS: 0
+  LR_MILESTONES: [2,]
+  LR_GAMMA: 0.1
+  INITIAL_LR: 0.0001
+  SAVE_AT_START: True
+  SAVE_EVERY: 1
+  LOSS_LABEL: "vgg/imagenet/ft_loss"
+  ACC_LABEL: "vgg/imagenet/ft_accuracy(max)"
+TEST:
+  GROUP_SIZES: [11, 10, 14, 9, 15, 16, 16, 29, 33, 56, 56, 56]
+  ADDITIONAL_TEST: False
+DECOMPOSITION:
+  MIN_STEP: 1e-5
